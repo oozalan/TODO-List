@@ -2,7 +2,6 @@
   --color-one: #1789FC;
   --color-two: #FDB833;
   --color-three: #FFD07B;
-  --padding-control: 1rem;
   --border-radius: 1rem;
 }
 
@@ -24,11 +23,11 @@ body {
   display: flex;
   flex-direction: column;
   height: 100%;
+  padding: 1rem;
 }
 
 .control {
   position: relative;
-  padding: var(--padding-control);
 }
 
 .btn {
@@ -48,14 +47,13 @@ body {
 
 .btn--dropdown {
   position: absolute;
-  top: var(--padding-control);
-  right: var(--padding-control);
+  top: 0;
+  right: 0;
 }
 
 .display {
   flex-grow: 1;
-  padding: 1rem;
-  padding-top: 0;
+  margin-top: 1rem;
 }
 
 .display--empty {
@@ -107,4 +105,28 @@ body {
   padding: 0.25rem 0 0.25rem 0.5rem;
   flex-grow: 1;
   opacity: 0.9;
+}
+
+.area {
+  top: 0;
+  position: absolute;
+  width: 80%;
+  height: 30%;
+  background-color: var(--color-two);
+  border: none;
+  outline: none;
+  resize: none;
+  border-radius: var(--border-radius);
+  padding: 0.5rem;
+}
+
+.modal {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: black;
+  opacity: 0.5;
+  z-index: 1000;
 }
