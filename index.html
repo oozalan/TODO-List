@@ -7,12 +7,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="author" content="Onat Özalan">
   <meta name="description" content="TODO App: Keep track of what you want to do.">
+  <script src="https://kit.fontawesome.com/1fed59fb0f.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="styles.css">
   <title>TODO App</title>
 </head>
 
 <body>
-
+  <div class="content">
+    <div class="control">
+      <button class="btn"><i class="fa-solid fa-plus"></i> Add</button>
+      <button class="btn"><i class="fa-solid fa-trash"></i> Clear All</button>
+      <button class="btn btn--dropdown">Active <i class="fa-solid fa-caret-down"></i></button>
+    </div>
+    <div class="display display--empty">
+      <p class="display__text">Your tasks will appear here.</p>
+    </div>
+  </div>
 </body>
 
 </html>
