@@ -1,43 +1,31 @@
-import { modalDiv, display, emptyMessage } from "./elements.js";
+import { emptyMessage, modalDiv, okBtn, cancelBtn, display } from "./exports.js";
 
 let clearPrompt = document.createElement("p");
-clearPrompt.classList.add("clear-prompt");
+clearPrompt.className = "clear-prompt above-all";
 clearPrompt.textContent = "Are you sure you want to clear all tasks?";
 clearPrompt.style.top = document.body.clientHeight * 0.35 + "px";
 clearPrompt.style.left = document.body.clientWidth * 0.1 + "px";
 
-let confirmBtn = document.createElement("button");
-confirmBtn.textContent = "Clear All";
-confirmBtn.className = "btn btn--larger";
-confirmBtn.style.position = "absolute";
-confirmBtn.style.zIndex = 1001;
-
-let cancelBtn = document.createElement("button");
-cancelBtn.textContent = "Cancel";
-cancelBtn.className = "btn btn--larger";
-cancelBtn.style.position = "absolute";
-cancelBtn.style.zIndex = 1001;
-
 let clearBtn = document.querySelector(".control .btn:nth-of-type(2)");
 clearBtn.onclick = function (event) {
+  okBtn.textContent = "Clear All";
+  okBtn.onclick = onClickOk;
+  cancelBtn.onclick = onClickCancel;
+
   document.body.append(modalDiv);
   document.body.append(clearPrompt);
-  document.body.append(confirmBtn);
+  document.body.append(okBtn);
   document.body.append(cancelBtn);
 
   let clearPromptCoords = clearPrompt.getBoundingClientRect();
-  confirmBtn.style.top = clearPromptCoords.bottom + 4 + "px";
-  confirmBtn.style.left = clearPromptCoords.right - cancelBtn.clientWidth - confirmBtn.clientWidth - 4 + "px";
+  okBtn.style.top = clearPromptCoords.bottom + 4 + "px";
+  okBtn.style.left = clearPromptCoords.right - cancelBtn.clientWidth - okBtn.clientWidth - 4 + "px";
 
   cancelBtn.style.top = clearPromptCoords.bottom + 4 + "px";
   cancelBtn.style.left = clearPromptCoords.right - cancelBtn.clientWidth + "px";
 }
 
-cancelBtn.onclick = function (event) {
-  finish();
-}
-
-confirmBtn.onclick = function (event) {
+function onClickOk(event) {
   let tasks = document.querySelectorAll(".display .task");
 
   if (tasks.length == 0) {
@@ -55,9 +43,13 @@ confirmBtn.onclick = function (event) {
   finish();
 }
 
+function onClickCancel(event) {
+  finish();
+}
+
 function finish() {
   clearPrompt.remove();
-  confirmBtn.remove();
+  okBtn.remove();
   cancelBtn.remove();
   modalDiv.remove();
 }

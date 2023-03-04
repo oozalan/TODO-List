@@ -134,7 +134,6 @@ body {
   font-weight: inherit;
   font-family: inherit;
   font-size: 1rem;
-  position: absolute;
   width: 80%;
   height: 30%;
   background-color: var(--color-two);
@@ -157,11 +156,14 @@ body {
 }
 
 .clear-prompt {
-  position: absolute;
   width: 80%;
   height: auto;
   background-color: var(--color-two);
-  z-index: 1001;
   padding: 0.75rem 1rem;
   border-radius: var(--border-radius);
+}
+
+.above-all {
+  position: absolute;
+  z-Index: 1001;
 }
