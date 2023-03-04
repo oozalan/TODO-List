@@ -1,4 +1,4 @@
-import { modalDiv, display } from "./elements.js";
+import { modalDiv, display, emptyMessage } from "./elements.js";
 
 let textArea = document.createElement("textarea");
 textArea.classList.add("text-area");
@@ -38,6 +38,11 @@ addBtn.onclick = function (event) {
 okBtn.onclick = function (event) {
   let value = textArea.value;
 
+  if (display.classList.contains("display--empty")) {
+    display.classList.remove("display--empty");
+    emptyMessage.remove();
+  }
+
   let task = document.createElement("div");
   task.classList.add("task");
   display.append(task);
@@ -53,7 +58,9 @@ okBtn.onclick = function (event) {
 
   let taskBtn1 = document.createElement("span");
   taskBtn1.classList.add("task__btn");
+  taskBtn1.id = "menu";
   taskSideBar.append(taskBtn1);
+  taskBtn1.onclick = onClickMenu;
 
   let taskBtn1Icon = document.createElement("i");
   taskBtn1Icon.className = "fa-solid fa-ellipsis";
@@ -80,4 +87,36 @@ function finish() {
   cancelBtn.remove();
   modalDiv.remove();
   textArea.value = "";
+}
+
+let editBtn = document.createElement("button");
+editBtn.textContent = "Edit";
+editBtn.className = "btn btn--menu btn--menu-top";
+editBtn.style.position = "absolute";
+editBtn.style.zIndex = 1001;
+
+let removeBtn = document.createElement("button");
+removeBtn.textContent = "Remove";
+removeBtn.className = "btn btn--menu btn--menu-bottom";
+removeBtn.style.position = "absolute";
+removeBtn.style.zIndex = 1001;
+
+function onClickMenu(event) {
+  let task = event.currentTarget.closest(".task");
+
+  if (task.querySelectorAll(".btn--menu").length != 0) {
+    editBtn.remove();
+    removeBtn.remove();
+    return;
+  }
+
+  task.append(editBtn);
+  task.append(removeBtn);
+
+  let coords = event.currentTarget.getBoundingClientRect();
+  editBtn.style.top = coords.top + "px";
+  editBtn.style.left = coords.left - editBtn.clientWidth - 4 + "px";
+
+  removeBtn.style.top = coords.top + editBtn.clientHeight + "px";
+  removeBtn.style.left = coords.left - removeBtn.clientWidth - 4 + "px";
 }

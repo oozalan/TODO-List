@@ -47,7 +47,6 @@ confirmBtn.onclick = function (event) {
 
   for (let task of tasks) {
     task.remove();
-    task = null;
   }
 
   display.classList.add("display--empty");
