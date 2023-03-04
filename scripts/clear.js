@@ -1,4 +1,4 @@
-import { emptyMessage, modalDiv, okBtn, cancelBtn, display } from "./exports.js";
+import { modalDiv, okBtn, cancelBtn, showEmptyMessage, activeTasks, completedTasks } from "./exports.js";
 
 let clearPrompt = document.createElement("p");
 clearPrompt.className = "clear-prompt above-all";
@@ -34,12 +34,12 @@ function onClickOk(event) {
   }
 
   for (let task of tasks) {
+    let index = activeTasks.indexOf(task);
+    activeTasks.splice(index, 1);
     task.remove();
   }
 
-  display.classList.add("display--empty");
-  display.append(emptyMessage);
-
+  showEmptyMessage();
   finish();
 }
 

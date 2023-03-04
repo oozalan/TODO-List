@@ -41,7 +41,7 @@ body {
   border: none;
   outline: none;
   color: white;
-  padding: 0.4rem 1rem;
+  padding: 0.4rem 0.6rem;
   border-radius: var(--border-radius);
   font-weight: 700;
 }
@@ -54,6 +54,7 @@ body {
 
 .btn--larger {
   font-size: 1rem;
+  padding: 0.4rem 1rem;
 }
 
 .btn--menu {
@@ -62,11 +63,22 @@ body {
   padding: 0.25rem 0;
 }
 
+.btn--dropdown-menu {
+  width: 6rem;
+  padding: 0.25rem;
+}
+
 .btn--menu-top {
   border-top-right-radius: var(--border-radius);
   border-top-left-radius: var(--border-radius);
   border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   border-collapse: collapse;
+}
+
+.btn--menu-middle {
+  border-collapse: collapse;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
 .btn--menu-bottom {

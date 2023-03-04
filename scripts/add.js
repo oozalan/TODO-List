@@ -1,4 +1,4 @@
-import { emptyMessage, modalDiv, okBtn, cancelBtn, display } from "./exports.js";
+import { modalDiv, okBtn, cancelBtn, display, activeTasks, completedTasks, isDisplayEmpty, showEmptyMessage, removeEmptyMessage } from "./exports.js";
 
 let textArea = document.createElement("textarea");
 textArea.className = "text-area above-all";
@@ -55,13 +55,11 @@ function onClickOk(event) {
 
   let value = textArea.value;
 
-  if (display.classList.contains("display--empty")) {
-    display.classList.remove("display--empty");
-    emptyMessage.remove();
-  }
+  if (isDisplayEmpty()) removeEmptyMessage();
 
   let task = document.createElement("div");
   task.classList.add("task");
+  activeTasks.push(task);
   display.append(task);
 
   let taskContent = document.createElement("p");
@@ -86,6 +84,7 @@ function onClickOk(event) {
   let taskBtn2 = document.createElement("span");
   taskBtn2.classList.add("task__btn");
   taskSideBar.append(taskBtn2);
+  taskBtn2.onclick = onClickDone;
 
   let taskBtn2Icon = document.createElement("i");
   taskBtn2Icon.className = "fa-solid fa-check";
@@ -120,16 +119,25 @@ function onClickMenu(event) {
 
 function onClickRemove(event) {
   let task = event.currentTarget.closest(".task");
+
+  let index = activeTasks.indexOf(task);
+  activeTasks.splice(index, 1);
+
   task.remove();
 
-  let tasks = document.querySelectorAll(".display .task");
+  if (isDisplayEmpty()) showEmptyMessage();
+}
 
-  if (tasks.length != 0) {
-    return;
-  }
+function onClickDone(event) {
+  let task = event.currentTarget.closest(".task");
 
-  display.classList.add("display--empty");
-  display.append(emptyMessage);
+  let index = activeTasks.indexOf(task);
+  activeTasks.splice(index, 1);
+
+  completedTasks.push(task);
+  task.remove();
+
+  if (isDisplayEmpty()) showEmptyMessage();
 }
 
 function finish() {
