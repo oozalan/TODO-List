@@ -8,6 +8,10 @@ export let cancelBtn = document.createElement("button");
 cancelBtn.textContent = "Cancel";
 cancelBtn.className = "btn btn--larger above-all";
 
+export let addBtn = document.querySelector(".control .btn:nth-of-type(1)");
+export let clearBtn = document.querySelector(".control .btn:nth-of-type(2)");
+export let dropdownBtn = document.querySelector(".control .btn:nth-of-type(3)");
+
 export let activeTasks = [];
 export let completedTasks = [];
 
@@ -20,11 +24,12 @@ export function isDisplayEmpty() {
 }
 
 let emptyMessage = document.createElement("p");
-emptyMessage.textContent = "Your tasks will appear here.";
+
 emptyMessage.className = "display__empty-message";
 
-export function showEmptyMessage() {
+export function showEmptyMessage(taskType) {
   display.classList.add("display--empty");
+  emptyMessage.textContent = `Your ${taskType} tasks will appear here.`;
   display.append(emptyMessage);
 }
 

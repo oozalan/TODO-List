@@ -1,17 +1,17 @@
-import { modalDiv, okBtn, cancelBtn, showEmptyMessage, activeTasks, completedTasks } from "./exports.js";
+import { modalDiv, okBtn, cancelBtn, showEmptyMessage, activeTasks, completedTasks, clearBtn } from "./exports.js";
 
 let clearPrompt = document.createElement("p");
 clearPrompt.className = "clear-prompt above-all";
-clearPrompt.textContent = "Are you sure you want to clear all tasks?";
 clearPrompt.style.top = document.body.clientHeight * 0.35 + "px";
 clearPrompt.style.left = document.body.clientWidth * 0.1 + "px";
 
-let clearBtn = document.querySelector(".control .btn:nth-of-type(2)");
 clearBtn.onclick = function (event) {
-  okBtn.textContent = "Clear All";
+  okBtn.textContent = clearBtn.textContent.slice(1);
   okBtn.onclick = onClickOk;
   cancelBtn.onclick = onClickCancel;
 
+  let taskType = okBtn.textContent.split(" ")[1].toLowerCase();
+  clearPrompt.textContent = `Are you sure you want to clear all ${taskType} tasks?`;
   document.body.append(modalDiv);
   document.body.append(clearPrompt);
   document.body.append(okBtn);
@@ -33,13 +33,30 @@ function onClickOk(event) {
     return;
   }
 
-  for (let task of tasks) {
-    let index = activeTasks.indexOf(task);
-    activeTasks.splice(index, 1);
-    task.remove();
+  let taskType = okBtn.textContent.split(" ")[1];
+
+  if (taskType == "Active") {
+    for (let task of tasks) {
+      task.remove();
+    }
+
+    activeTasks.length = 0;
+  } else if (taskType == "Completed") {
+    for (let task of tasks) {
+      task.remove();
+    }
+
+    completedTasks.length = 0;
+  } else {
+    for (let task of tasks) {
+      task.remove();
+    }
+
+    activeTasks.length = 0;
+    completedTasks.length = 0;
   }
 
-  showEmptyMessage();
+  showEmptyMessage(taskType.toLowerCase());
   finish();
 }
 

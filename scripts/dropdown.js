@@ -1,4 +1,4 @@
-import { activeTasks, completedTasks, showEmptyMessage, removeEmptyMessage, display, isDisplayEmpty } from "./exports.js";
+import { activeTasks, completedTasks, showEmptyMessage, removeEmptyMessage, display, isDisplayEmpty, addBtn, clearBtn, dropdownBtn } from "./exports.js";
 
 let activeBtn = document.createElement("button");
 activeBtn.textContent = "Active";
@@ -12,7 +12,6 @@ let allBtn = document.createElement("button");
 allBtn.textContent = "All";
 allBtn.className = "btn btn--menu btn--menu-bottom btn--dropdown-menu above-all";
 
-let dropdownBtn = document.querySelector(".control .btn--dropdown");
 dropdownBtn.onclick = function (event) {
   if (document.querySelectorAll("body > .btn--menu").length != 0) {
     activeBtn.remove();
@@ -51,13 +50,17 @@ activeBtn.onclick = function (event) {
   }
 
   if (activeTasks.length == 0) {
-    showEmptyMessage();
-    return;
+    showEmptyMessage("active");
   }
 
   for (let task of activeTasks) {
     display.append(task);
   }
+
+  // Change the behaviors of the buttons
+  clearBtn.before(addBtn);
+  clearBtn.before(" ");
+  clearBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Clear Active';
 };
 
 completedBtn.onclick = function (event) {
@@ -75,13 +78,16 @@ completedBtn.onclick = function (event) {
   }
 
   if (completedTasks.length == 0) {
-    showEmptyMessage();
-    return;
+    showEmptyMessage("completed");
   }
 
   for (let task of completedTasks) {
     display.append(task);
   }
+
+  // Change the behaviors of the buttons
+  addBtn.remove();
+  clearBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Clear Completed';
 };
 
 allBtn.onclick = function (event) {
@@ -112,8 +118,12 @@ allBtn.onclick = function (event) {
   }
 
   if (activeTasks.length == 0 && completedTasks.length == 0) {
-    showEmptyMessage();
+    showEmptyMessage("all");
   }
 
   dropdownBtn.innerHTML = 'All <i class="fa-solid fa-caret-down"></i>';
+
+  // Change the behaviors of buttons
+  addBtn.remove();
+  clearBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Clear All';
 };

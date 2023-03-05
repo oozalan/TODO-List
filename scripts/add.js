@@ -1,11 +1,10 @@
-import { modalDiv, okBtn, cancelBtn, display, activeTasks, completedTasks, isDisplayEmpty, showEmptyMessage, removeEmptyMessage } from "./exports.js";
+import { modalDiv, okBtn, cancelBtn, display, activeTasks, completedTasks, isDisplayEmpty, showEmptyMessage, removeEmptyMessage, addBtn, clearBtn } from "./exports.js";
 
 let textArea = document.createElement("textarea");
 textArea.className = "text-area above-all";
 textArea.style.top = document.body.clientHeight * 0.35 + "px";
 textArea.style.left = document.body.clientWidth * 0.1 + "px";
 
-let addBtn = document.querySelector(".control .btn:first-of-type");
 addBtn.onclick = showArea;
 
 let editBtn = document.createElement("button");
@@ -24,7 +23,13 @@ function showArea(event) {
   } else {
     okBtn.textContent = "Edit";
     onClickOk.task = event.currentTarget.closest(".task");
-    textArea.value = onClickOk.task.querySelector(".task__content").textContent;
+
+    let taskContent = onClickOk.task.querySelector(".task__content").textContent;
+    if (completedTasks.includes(onClickOk.task)) {
+      textArea.value = taskContent.slice(9);
+    } else {
+      textArea.value = taskContent;
+    }
   }
 
   okBtn.onclick = onClickOk;
@@ -48,7 +53,12 @@ function showArea(event) {
 function onClickOk(event) {
   if (event.currentTarget.textContent.includes("Edit")) {
     let taskContent = onClickOk.task.querySelector(".task__content");
-    taskContent.textContent = textArea.value;
+
+    if (completedTasks.includes(onClickOk.task)) {
+      taskContent.innerHTML = '<span class="completed-indicator">Completed</span>' + textArea.value;
+    } else {
+      taskContent.textContent = textArea.value;
+    }
     finish();
     return;
   }
@@ -125,7 +135,7 @@ function onClickRemove(event) {
 
   task.remove();
 
-  if (isDisplayEmpty()) showEmptyMessage();
+  if (isDisplayEmpty()) showEmptyMessage("active");
 }
 
 function onClickDone(event) {
@@ -137,7 +147,20 @@ function onClickDone(event) {
   completedTasks.push(task);
   task.remove();
 
-  if (isDisplayEmpty()) showEmptyMessage();
+  let doneBtn = task.querySelector(".task__btn:nth-of-type(2)");
+  doneBtn.remove();
+
+  let taskContent = task.querySelector(".task__content");
+  taskContent.innerHTML = '<span class="completed-indicator">Completed</span>' + taskContent.innerHTML;
+
+  let taskType = clearBtn.textContent.slice(1).split(" ")[1];
+
+  if (taskType == "Active") {
+    if (isDisplayEmpty()) showEmptyMessage("active");
+    return;
+  }
+
+  display.append(task);
 }
 
 function finish() {
