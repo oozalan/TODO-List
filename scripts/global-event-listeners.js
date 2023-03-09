@@ -1,24 +1,34 @@
 document.addEventListener("click", function (event) {
-  let menuButtons = document.querySelectorAll(".task .btn--menu");
-  if (menuButtons.length == 0) return;
+  let taskDropdown = document.querySelector(".task__dropdown");
+  if (!taskDropdown) return;
 
-  let target = event.target.closest("#menu");
+  let target = event.target.closest(".task__sidebar > .btn:first-of-type");
   if (target) return;
 
-  for (let menuButton of menuButtons) {
-    menuButton.remove();
-  }
+  taskDropdown.remove();
 });
 
 document.addEventListener("click", function (event) {
-  let menuButtons = document.querySelectorAll("body > .btn--menu");
-  if (menuButtons.length == 0) return;
+  let controlDropdown = document.querySelector(".control__dropdown");
+  if (!controlDropdown) return;
 
-  let target = event.target.closest(".btn--dropdown");
+  let target = event.target.closest(".control > .btn:last-of-type");
   if (target) return;
 
-  for (let menuButton of menuButtons) {
-    menuButton.remove();
+  controlDropdown.remove();
+});
+
+document.addEventListener("pointerdown", function (event) {
+  let targetDown = event.target.closest(".btn");
+
+  if (targetDown) {
+    onPointerUp.targetDown = targetDown;
+    document.addEventListener("pointerup", onPointerUp);
   }
 });
+
+function onPointerUp(event) {
+  onPointerUp.targetDown.blur();
+  document.removeEventListener("pointerup", onPointerUp);
+}
 

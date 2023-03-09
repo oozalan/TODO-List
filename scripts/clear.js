@@ -1,9 +1,15 @@
-import { modalDiv, okBtn, cancelBtn, showEmptyMessage, activeTasks, completedTasks, clearBtn } from "./exports.js";
+import { okBtn, cancelBtn, clearBtn } from "./exports.js";
+import { modalDiv, activeTasks, completedTasks } from "./exports.js";
+import { showEmptyMessage } from "./exports.js";
+
+let popup = document.createElement("div");
+popup.className = "popup";
 
 let clearPrompt = document.createElement("p");
-clearPrompt.className = "clear-prompt above-all";
-clearPrompt.style.top = document.body.clientHeight * 0.35 + "px";
-clearPrompt.style.left = document.body.clientWidth * 0.1 + "px";
+clearPrompt.className = "popup__content clear-prompt";
+
+let popupControl = document.createElement("div");
+popupControl.className = "popup__control";
 
 clearBtn.onclick = function (event) {
   okBtn.textContent = clearBtn.textContent.slice(1);
@@ -13,16 +19,11 @@ clearBtn.onclick = function (event) {
   let taskType = okBtn.textContent.split(" ")[1].toLowerCase();
   clearPrompt.textContent = `Are you sure you want to clear all ${taskType} tasks?`;
   document.body.append(modalDiv);
-  document.body.append(clearPrompt);
-  document.body.append(okBtn);
-  document.body.append(cancelBtn);
-
-  let clearPromptCoords = clearPrompt.getBoundingClientRect();
-  okBtn.style.top = clearPromptCoords.bottom + 4 + "px";
-  okBtn.style.left = clearPromptCoords.right - cancelBtn.clientWidth - okBtn.clientWidth - 4 + "px";
-
-  cancelBtn.style.top = clearPromptCoords.bottom + 4 + "px";
-  cancelBtn.style.left = clearPromptCoords.right - cancelBtn.clientWidth + "px";
+  modalDiv.append(popup);
+  popup.append(clearPrompt);
+  popup.append(popupControl);
+  popupControl.append(okBtn);
+  popupControl.append(cancelBtn);
 }
 
 function onClickOk(event) {
@@ -65,8 +66,6 @@ function onClickCancel(event) {
 }
 
 function finish() {
-  clearPrompt.remove();
-  okBtn.remove();
-  cancelBtn.remove();
+  popup.remove();
   modalDiv.remove();
 }

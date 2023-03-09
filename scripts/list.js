@@ -1,44 +1,41 @@
-import { activeTasks, completedTasks, showEmptyMessage, removeEmptyMessage, display, isDisplayEmpty, addBtn, clearBtn, dropdownBtn } from "./exports.js";
+import { addBtn, clearBtn, listBtn, display } from "./exports.js";
+import { activeTasks, completedTasks } from "./exports.js";
+import { isDisplayEmpty, showEmptyMessage, removeEmptyMessage } from "./exports.js";
+
+let dropdown = document.createElement("div");
+dropdown.className = "dropdown control__dropdown";
 
 let activeBtn = document.createElement("button");
 activeBtn.textContent = "Active";
-activeBtn.className = "btn btn--menu btn--menu-top btn--dropdown-menu above-all";
+activeBtn.className = "btn";
 
 let completedBtn = document.createElement("button");
 completedBtn.textContent = "Completed";
-completedBtn.className = "btn btn--menu btn--menu-middle btn--dropdown-menu above-all";
+completedBtn.className = "btn";
 
 let allBtn = document.createElement("button");
 allBtn.textContent = "All";
-allBtn.className = "btn btn--menu btn--menu-bottom btn--dropdown-menu above-all";
+allBtn.className = "btn";
 
-dropdownBtn.onclick = function (event) {
-  if (document.querySelectorAll("body > .btn--menu").length != 0) {
-    activeBtn.remove();
-    completedBtn.remove();
-    allBtn.remove();
+dropdown.append(activeBtn);
+dropdown.append(completedBtn);
+dropdown.append(allBtn);
+
+listBtn.onclick = function (event) {
+  let controlDropdown = document.querySelector(".control__dropdown");
+  if (controlDropdown) {
+    controlDropdown.remove();
     return;
   }
-  document.body.append(activeBtn);
-  document.body.append(completedBtn);
-  document.body.append(allBtn);
 
-  let coords = event.currentTarget.getBoundingClientRect();
-
-  activeBtn.style.top = coords.bottom + 4 + "px";
-  activeBtn.style.left = coords.right - activeBtn.clientWidth + "px";
-
-  completedBtn.style.top = coords.bottom + activeBtn.clientHeight + 4 + "px";
-  completedBtn.style.left = coords.right - activeBtn.clientWidth + "px";
-
-  allBtn.style.top = coords.bottom + 2 * activeBtn.clientHeight + 4 + "px";
-  allBtn.style.left = coords.right - activeBtn.clientWidth + "px";
+  let control = document.querySelector(".control");
+  control.append(dropdown);
 };
 
 activeBtn.onclick = function (event) {
-  if (dropdownBtn.textContent.includes("Active")) return;
+  if (listBtn.textContent.includes("Active")) return;
 
-  dropdownBtn.innerHTML = 'Active <i class="fa-solid fa-caret-down"></i>';
+  listBtn.innerHTML = 'Active <i class="fa-solid fa-caret-down"></i>';
   let tasks = document.querySelectorAll(".display .task");
 
   if (tasks.length == 0) {
@@ -64,9 +61,9 @@ activeBtn.onclick = function (event) {
 };
 
 completedBtn.onclick = function (event) {
-  if (dropdownBtn.textContent.includes("Completed")) return;
+  if (listBtn.textContent.includes("Completed")) return;
 
-  dropdownBtn.innerHTML = 'Completed <i class="fa-solid fa-caret-down"></i>';
+  listBtn.innerHTML = 'Completed <i class="fa-solid fa-caret-down"></i>';
   let tasks = document.querySelectorAll(".display .task");
 
   if (tasks.length == 0) {
@@ -91,9 +88,9 @@ completedBtn.onclick = function (event) {
 };
 
 allBtn.onclick = function (event) {
-  if (dropdownBtn.textContent.includes("All")) return;
+  if (listBtn.textContent.includes("All")) return;
 
-  if (dropdownBtn.textContent.includes("Completed")) {
+  if (listBtn.textContent.includes("Completed")) {
     let tasks = document.querySelectorAll(".display .task");
 
     for (let task of tasks) {
@@ -121,7 +118,7 @@ allBtn.onclick = function (event) {
     showEmptyMessage("all");
   }
 
-  dropdownBtn.innerHTML = 'All <i class="fa-solid fa-caret-down"></i>';
+  listBtn.innerHTML = 'All <i class="fa-solid fa-caret-down"></i>';
 
   // Change the behaviors of buttons
   addBtn.remove();

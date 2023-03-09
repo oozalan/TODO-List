@@ -1,20 +1,33 @@
-import { modalDiv, okBtn, cancelBtn, display, activeTasks, completedTasks, isDisplayEmpty, showEmptyMessage, removeEmptyMessage, addBtn, clearBtn } from "./exports.js";
+import { addBtn, clearBtn, display, content } from "./exports.js";
+import { modalDiv, okBtn, cancelBtn, activeTasks, completedTasks } from "./exports.js";
+import { isDisplayEmpty, showEmptyMessage, removeEmptyMessage } from "./exports.js";
+
+let popup = document.createElement("div");
+popup.className = "popup";
 
 let textArea = document.createElement("textarea");
-textArea.className = "text-area above-all";
-textArea.style.top = document.body.clientHeight * 0.35 + "px";
-textArea.style.left = document.body.clientWidth * 0.1 + "px";
+textArea.className = "popup__content text-area";
+textArea.setAttribute("placeholder", "Type here what you want to do.");
 
-addBtn.onclick = showArea;
+let popupControl = document.createElement("div");
+popupControl.className = "popup__control";
+
+let dropdown = document.createElement("div");
+dropdown.className = "dropdown task__dropdown";
 
 let editBtn = document.createElement("button");
 editBtn.textContent = "Edit";
-editBtn.className = "btn btn--menu btn--menu-top above-all";
-editBtn.onclick = showArea;
+editBtn.className = "btn";
 
 let removeBtn = document.createElement("button");
 removeBtn.textContent = "Remove";
-removeBtn.className = "btn btn--menu btn--menu-bottom above-all";
+removeBtn.className = "btn";
+
+dropdown.append(editBtn);
+dropdown.append(removeBtn);
+
+addBtn.onclick = showArea;
+editBtn.onclick = showArea;
 removeBtn.onclick = onClickRemove;
 
 function showArea(event) {
@@ -23,42 +36,25 @@ function showArea(event) {
   } else {
     okBtn.textContent = "Edit";
     onClickOk.task = event.currentTarget.closest(".task");
-
-    let taskContent = onClickOk.task.querySelector(".task__content").textContent;
-    if (completedTasks.includes(onClickOk.task)) {
-      textArea.value = taskContent.slice(9);
-    } else {
-      textArea.value = taskContent;
-    }
+    textArea.value = onClickOk.task.querySelector(".task__content").textContent;
   }
 
   okBtn.onclick = onClickOk;
   cancelBtn.onclick = onClickCancel;
 
-  document.body.append(modalDiv);
-  document.body.append(textArea);
-  document.body.append(okBtn);
-  document.body.append(cancelBtn);
-
-  let textAreaCoords = textArea.getBoundingClientRect();
-  okBtn.style.top = textAreaCoords.bottom + 4 + "px";
-  okBtn.style.left = textAreaCoords.right - cancelBtn.clientWidth - okBtn.clientWidth - 4 + "px";
-
-  cancelBtn.style.top = textAreaCoords.bottom + 4 + "px";
-  cancelBtn.style.left = textAreaCoords.right - cancelBtn.clientWidth + "px";
-
+  modalDiv.append(popup);
+  popup.append(textArea);
+  popup.append(popupControl);
+  popupControl.append(okBtn);
+  popupControl.append(cancelBtn);
+  content.append(modalDiv);
   textArea.focus();
 }
 
 function onClickOk(event) {
   if (event.currentTarget.textContent.includes("Edit")) {
     let taskContent = onClickOk.task.querySelector(".task__content");
-
-    if (completedTasks.includes(onClickOk.task)) {
-      taskContent.innerHTML = '<span class="completed-indicator">Completed</span>' + textArea.value;
-    } else {
-      taskContent.textContent = textArea.value;
-    }
+    taskContent.textContent = textArea.value;
     finish();
     return;
   }
@@ -78,27 +74,26 @@ function onClickOk(event) {
   task.append(taskContent);
 
   let taskSideBar = document.createElement("div");
-  taskSideBar.classList.add("task__sidebar");
+  taskSideBar.className = "dropdown task__sidebar";
   task.append(taskSideBar);
 
-  let taskBtn1 = document.createElement("span");
-  taskBtn1.classList.add("task__btn");
-  taskBtn1.id = "menu";
-  taskSideBar.append(taskBtn1);
-  taskBtn1.onclick = onClickMenu;
+  let taskBtnMenu = document.createElement("button");
+  taskBtnMenu.classList.add("btn");
+  taskSideBar.append(taskBtnMenu);
+  taskBtnMenu.onclick = onClickMenu;
 
-  let taskBtn1Icon = document.createElement("i");
-  taskBtn1Icon.className = "fa-solid fa-ellipsis";
-  taskBtn1.append(taskBtn1Icon);
+  let taskBtnMenuIcon = document.createElement("i");
+  taskBtnMenuIcon.className = "fa-solid fa-ellipsis";
+  taskBtnMenu.append(taskBtnMenuIcon);
 
-  let taskBtn2 = document.createElement("span");
-  taskBtn2.classList.add("task__btn");
-  taskSideBar.append(taskBtn2);
-  taskBtn2.onclick = onClickDone;
+  let taskBtnComplete = document.createElement("button");
+  taskBtnComplete.classList.add("btn");
+  taskSideBar.append(taskBtnComplete);
+  taskBtnComplete.onclick = onClickDone;
 
-  let taskBtn2Icon = document.createElement("i");
-  taskBtn2Icon.className = "fa-solid fa-check";
-  taskBtn2.append(taskBtn2Icon);
+  let taskBtnCompleteIcon = document.createElement("i");
+  taskBtnCompleteIcon.className = "fa-solid fa-check";
+  taskBtnComplete.append(taskBtnCompleteIcon);
 
   finish();
 }
@@ -108,34 +103,31 @@ function onClickCancel(event) {
 }
 
 function onClickMenu(event) {
-  let task = event.currentTarget.closest(".task");
-
-  if (task.querySelectorAll(".btn--menu").length != 0) {
-    editBtn.remove();
-    removeBtn.remove();
+  let taskDropdown = document.querySelector(".task__dropdown");
+  if (taskDropdown) {
+    taskDropdown.remove();
     return;
   }
 
-  task.append(editBtn);
-  task.append(removeBtn);
-
-  let coords = event.currentTarget.getBoundingClientRect();
-  editBtn.style.top = coords.top + "px";
-  editBtn.style.left = coords.left - editBtn.clientWidth - 4 + "px";
-
-  removeBtn.style.top = coords.top + editBtn.clientHeight + "px";
-  removeBtn.style.left = coords.left - removeBtn.clientWidth - 4 + "px";
+  let task = event.currentTarget.closest(".task");
+  let taskSidebar = task.querySelector(".task__sidebar");
+  taskSidebar.append(dropdown);
 }
 
 function onClickRemove(event) {
   let task = event.currentTarget.closest(".task");
 
-  let index = activeTasks.indexOf(task);
-  activeTasks.splice(index, 1);
+  if (activeTasks.includes(task)) {
+    let index = activeTasks.indexOf(task);
+    activeTasks.splice(index, 1);
+  } else {
+    let index = completedTasks.indexOf(task);
+    completedTasks.splice(index, 1);
+  }
 
   task.remove();
-
-  if (isDisplayEmpty()) showEmptyMessage("active");
+  let taskType = clearBtn.textContent.slice(1).split(" ")[1].toLowerCase();
+  if (isDisplayEmpty()) showEmptyMessage(taskType);
 }
 
 function onClickDone(event) {
@@ -147,11 +139,8 @@ function onClickDone(event) {
   completedTasks.push(task);
   task.remove();
 
-  let doneBtn = task.querySelector(".task__btn:nth-of-type(2)");
+  let doneBtn = task.querySelector(".task__sidebar>.btn:nth-of-type(2)");
   doneBtn.remove();
-
-  let taskContent = task.querySelector(".task__content");
-  taskContent.innerHTML = '<span class="completed-indicator">Completed</span>' + taskContent.innerHTML;
 
   let taskType = clearBtn.textContent.slice(1).split(" ")[1];
 
@@ -164,9 +153,7 @@ function onClickDone(event) {
 }
 
 function finish() {
-  textArea.remove();
-  okBtn.remove();
-  cancelBtn.remove();
+  popup.remove();
   modalDiv.remove();
   textArea.value = "";
 }
