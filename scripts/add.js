@@ -1,6 +1,6 @@
 import { addBtn, clearBtn, display, content } from "./exports.js";
 import { modalDiv, okBtn, cancelBtn, activeTasks, completedTasks } from "./exports.js";
-import { isDisplayEmpty, showEmptyMessage, removeEmptyMessage } from "./exports.js";
+import { isDisplayEmpty, showEmptyMessage, removeEmptyMessage, makeAllNonTabbable, makeAllTabbable } from "./exports.js";
 
 let popup = document.createElement("div");
 popup.className = "popup";
@@ -41,6 +41,8 @@ function showArea(event) {
 
   okBtn.onclick = onClickOk;
   cancelBtn.onclick = onClickCancel;
+
+  makeAllNonTabbable();
 
   modalDiv.append(popup);
   popup.append(textArea);
@@ -156,4 +158,5 @@ function finish() {
   popup.remove();
   modalDiv.remove();
   textArea.value = "";
+  makeAllTabbable();
 }

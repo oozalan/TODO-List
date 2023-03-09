@@ -1,6 +1,6 @@
 import { okBtn, cancelBtn, clearBtn } from "./exports.js";
 import { modalDiv, activeTasks, completedTasks } from "./exports.js";
-import { showEmptyMessage } from "./exports.js";
+import { showEmptyMessage, makeAllNonTabbable, makeAllTabbable } from "./exports.js";
 
 let popup = document.createElement("div");
 popup.className = "popup";
@@ -17,7 +17,10 @@ clearBtn.onclick = function (event) {
   cancelBtn.onclick = onClickCancel;
 
   let taskType = okBtn.textContent.split(" ")[1].toLowerCase();
-  clearPrompt.textContent = `Are you sure you want to clear all ${taskType} tasks?`;
+  if (taskType == "all") clearPrompt.textContent = "Are you sure you want to clear all tasks?";
+  else clearPrompt.textContent = `Are you sure you want to clear all ${taskType} tasks?`;
+
+  makeAllNonTabbable();
   document.body.append(modalDiv);
   modalDiv.append(popup);
   popup.append(clearPrompt);
@@ -68,4 +71,5 @@ function onClickCancel(event) {
 function finish() {
   popup.remove();
   modalDiv.remove();
+  makeAllTabbable();
 }

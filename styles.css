@@ -23,8 +23,8 @@
   --color-task-shadow: hwb(50 60% 8% / 0.4);
   --color-textarea-focus-border: hwb(50 40% 35% / 0.5);
   --color-textarea-focus-outline: hwb(50 40% 35% / 0.5);
-  --color-empty-message-font: hwb(50 45% 35% / 0.6);
-  --color-placeholder: hwb(50 50% 40% / 0.6);
+  --color-empty-message-font: hwb(50 20% 50% / 0.4);
+  --color-placeholder: hwb(50 40% 35% / 0.5);
   --color-x: hwb(50 40% 35% / 0.45);
 }
 
@@ -153,6 +153,7 @@ body {
 .display__empty-message {
   color: var(--color-empty-message-font);
   user-select: none;
+  font-size: 1rem;
 }
 
 .task {

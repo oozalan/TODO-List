@@ -39,3 +39,17 @@ export function removeEmptyMessage() {
   display.classList.remove("display--empty");
   emptyMessage.remove();
 }
+
+export function makeAllNonTabbable() {
+  let allButtons = document.querySelectorAll(".btn");
+  for (let button of allButtons) {
+    button.setAttribute("tabindex", "-1");
+  }
+}
+
+export function makeAllTabbable() {
+  let allButtons = document.querySelectorAll(".btn");
+  for (let button of allButtons) {
+    button.setAttribute("tabindex", "0");
+  }
+}
