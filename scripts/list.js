@@ -1,4 +1,4 @@
-import { addBtn, clearBtn, listBtn, display } from "./exports.js";
+import { addBtn, clearBtn, listBtn, display, content } from "./exports.js";
 import { activeTasks, completedTasks } from "./exports.js";
 import { isDisplayEmpty, showEmptyMessage, removeEmptyMessage } from "./exports.js";
 
@@ -17,6 +17,11 @@ let allBtn = document.createElement("button");
 allBtn.textContent = "All";
 allBtn.className = "btn";
 
+let check = document.createElement("i");
+check.className = "fa-solid fa-check";
+check.style.paddingLeft = 4 + "px";
+activeBtn.append(check);
+
 dropdown.append(activeBtn);
 dropdown.append(completedBtn);
 dropdown.append(allBtn);
@@ -33,9 +38,9 @@ listBtn.onclick = function (event) {
 };
 
 activeBtn.onclick = function (event) {
-  if (listBtn.textContent.includes("Active")) return;
+  let taskType = content.getAttribute("data-task-type");
+  if (taskType == "active") return;
 
-  listBtn.innerHTML = 'Active <i class="fa-solid fa-caret-down"></i>';
   let tasks = document.querySelectorAll(".display .task");
 
   if (tasks.length == 0) {
@@ -54,16 +59,15 @@ activeBtn.onclick = function (event) {
     display.append(task);
   }
 
-  // Change the behaviors of the buttons
+  content.setAttribute("data-task-type", "active");
+  activeBtn.append(check);
   clearBtn.before(addBtn);
-  clearBtn.before(" ");
-  clearBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Clear Active';
 };
 
 completedBtn.onclick = function (event) {
-  if (listBtn.textContent.includes("Completed")) return;
+  let taskType = content.getAttribute("data-task-type");
+  if (taskType == "completed") return;
 
-  listBtn.innerHTML = 'Completed <i class="fa-solid fa-caret-down"></i>';
   let tasks = document.querySelectorAll(".display .task");
 
   if (tasks.length == 0) {
@@ -82,15 +86,16 @@ completedBtn.onclick = function (event) {
     display.append(task);
   }
 
-  // Change the behaviors of the buttons
+  content.setAttribute("data-task-type", "completed");
+  completedBtn.append(check);
   addBtn.remove();
-  clearBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Clear Completed';
 };
 
 allBtn.onclick = function (event) {
-  if (listBtn.textContent.includes("All")) return;
+  let taskType = content.getAttribute("data-task-type");
+  if (taskType == "all") return;
 
-  if (listBtn.textContent.includes("Completed")) {
+  if (taskType == "completed") {
     let tasks = document.querySelectorAll(".display .task");
 
     for (let task of tasks) {
@@ -118,9 +123,7 @@ allBtn.onclick = function (event) {
     showEmptyMessage("all");
   }
 
-  listBtn.innerHTML = 'All <i class="fa-solid fa-caret-down"></i>';
-
-  // Change the behaviors of buttons
+  content.setAttribute("data-task-type", "all");
+  allBtn.append(check);
   addBtn.remove();
-  clearBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Clear All';
 };

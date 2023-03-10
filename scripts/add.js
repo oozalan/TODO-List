@@ -31,7 +31,7 @@ editBtn.onclick = showArea;
 removeBtn.onclick = onClickRemove;
 
 function showArea(event) {
-  if (event.currentTarget.textContent.includes("Add")) {
+  if (event.currentTarget == addBtn) {
     okBtn.textContent = "Add";
   } else {
     okBtn.textContent = "Edit";
@@ -54,7 +54,7 @@ function showArea(event) {
 }
 
 function onClickOk(event) {
-  if (event.currentTarget.textContent.includes("Edit")) {
+  if (onClickOk.task) {
     let taskContent = onClickOk.task.querySelector(".task__content");
     taskContent.textContent = textArea.value;
     finish();
@@ -128,8 +128,7 @@ function onClickRemove(event) {
   }
 
   task.remove();
-  let taskType = clearBtn.textContent.slice(1).split(" ")[1].toLowerCase();
-  if (isDisplayEmpty()) showEmptyMessage(taskType);
+  if (isDisplayEmpty()) showEmptyMessage(content.getAttribute("data-task-type"));
 }
 
 function onClickDone(event) {
@@ -144,10 +143,22 @@ function onClickDone(event) {
   let doneBtn = task.querySelector(".task__sidebar>.btn:nth-of-type(2)");
   doneBtn.remove();
 
-  let taskType = clearBtn.textContent.slice(1).split(" ")[1];
+  let statusIndicator = document.createElement("span");
+  statusIndicator.className = "status-indicator";
 
-  if (taskType == "Active") {
-    if (isDisplayEmpty()) showEmptyMessage("active");
+  let check = document.createElement("i");
+  check.className = "fa-solid fa-check";
+
+  statusIndicator.append(check);
+  task.append(statusIndicator);
+
+  let taskContent = task.querySelector(".task__content");
+  taskContent.classList.add("indented");
+
+  let taskType = content.getAttribute("data-task-type");
+
+  if (taskType == "active") {
+    if (isDisplayEmpty()) showEmptyMessage(taskType);
     return;
   }
 
@@ -159,4 +170,5 @@ function finish() {
   modalDiv.remove();
   textArea.value = "";
   makeAllTabbable();
+  onClickOk.task = null;
 }

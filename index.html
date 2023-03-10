@@ -15,16 +15,19 @@
   <script type="module" src="scripts/add.js"></script>
   <script type="module" src="scripts/clear.js"></script>
   <script type="module" src="scripts/list.js"></script>
-  <title>TODO App</title>
+  <title>TODO List</title>
 </head>
 
 <body>
-  <div class="content">
-    <div class="control">
-      <button class="btn" id="add"><i class="fa-solid fa-plus"></i> Add</button>
-      <button class="btn" id="clear"><i class="fa-solid fa-trash"></i> Clear Active</button>
-      <button class="btn" id="list">Active <i class="fa-solid fa-caret-down"></i></button>
-    </div>
+  <div class="content" data-task-type="active">
+    <header class="header">
+      <h1>TODO List</h1>
+      <div class="control">
+        <button class="btn" id="add"><i class="fa-solid fa-plus"></i></button>
+        <button class="btn" id="clear"><i class="fa-solid fa-trash"></i></button>
+        <button class="btn" id="list"><i class="fa-solid fa-caret-down"></i></button>
+      </div>
+    </header>
     <div class="display"></div>
   </div>
 </body>

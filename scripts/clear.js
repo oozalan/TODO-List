@@ -1,5 +1,5 @@
-import { okBtn, cancelBtn, clearBtn } from "./exports.js";
-import { modalDiv, activeTasks, completedTasks } from "./exports.js";
+import { clearBtn, content } from "./exports.js";
+import { modalDiv, okBtn, cancelBtn, activeTasks, completedTasks } from "./exports.js";
 import { showEmptyMessage, makeAllNonTabbable, makeAllTabbable } from "./exports.js";
 
 let popup = document.createElement("div");
@@ -12,11 +12,13 @@ let popupControl = document.createElement("div");
 popupControl.className = "popup__control";
 
 clearBtn.onclick = function (event) {
-  okBtn.textContent = clearBtn.textContent.slice(1);
+  let taskType = content.getAttribute("data-task-type");
+  let taskTypeCapitalized = taskType.charAt(0).toUpperCase() + taskType.slice(1);
+
+  okBtn.textContent = `Clear ${taskTypeCapitalized}`;
   okBtn.onclick = onClickOk;
   cancelBtn.onclick = onClickCancel;
 
-  let taskType = okBtn.textContent.split(" ")[1].toLowerCase();
   if (taskType == "all") clearPrompt.textContent = "Are you sure you want to clear all tasks?";
   else clearPrompt.textContent = `Are you sure you want to clear all ${taskType} tasks?`;
 
@@ -37,15 +39,15 @@ function onClickOk(event) {
     return;
   }
 
-  let taskType = okBtn.textContent.split(" ")[1];
+  let taskType = content.getAttribute("data-task-type");
 
-  if (taskType == "Active") {
+  if (taskType == "active") {
     for (let task of tasks) {
       task.remove();
     }
 
     activeTasks.length = 0;
-  } else if (taskType == "Completed") {
+  } else if (taskType == "completed") {
     for (let task of tasks) {
       task.remove();
     }
@@ -60,7 +62,7 @@ function onClickOk(event) {
     completedTasks.length = 0;
   }
 
-  showEmptyMessage(taskType.toLowerCase());
+  showEmptyMessage(taskType);
   finish();
 }
 
