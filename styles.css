@@ -1,35 +1,35 @@
 :root {
-  --color-body-font: hwb(50 20% 80%);
-  --color-btn-active-bg: hwb(50 40% 20% / 0.6);
-  --color-btn-active-border: hwb(50 70% 10%);
-  --color-btn-bg: hwb(50 70% 0%);
-  --color-btn-border: hwb(50 57% 6%);
-  --color-btn-focus-bg: hwb(50 55% 0%);
-  --color-btn-focus-border: hwb(50 25% 60% / 0.45);
-  --color-btn-focus-outline: hwb(50 25% 60% / 0.45);
-  --color-btn-hover-bg: hwb(50 55% 0%);
-  --color-btn-shadow: hwb(50 57% 6% / 0.4);
-  --color-content-bg: hwb(50 80% 0%);
-  --color-header-bg: hwb(50 70% 0%);
-  --color-header-border: hwb(50 70% 6%);
-  --color-display-scrollbar-thumb: hwb(50 56% 10% / 0.7);
-  --color-display-scrollbar-track: hwb(50 70% 0%);
-  --color-empty-message-font: hwb(50 20% 80% / 0.4);
-  --color-placeholder: hwb(50 40% 35% / 0.5);
-  --color-popup-btn-active-border: hwb(50 90% 40% / 0.4);
-  --color-popup-btn-border: hwb(50 55% 12%);
-  --color-popup-btn-shadow: hwb(50 50% 25% / 0.6);
-  --color-popup-content-bg: hwb(50 70% 0%);
-  --color-popup-content-border: hwb(50 55% 12%);
-  --color-popup-content-shadow: hwb(50 50% 25% / 0.6);
-  --color-task-bg: hwb(50 70% 0%);
-  --color-task-border: hwb(50 70% 6%);
-  --color-task-scrollbar-thumb: hwb(50 40% 35% / 0.5);
-  --color-task-scrollbar-track: hwb(50 40% 10% / 0.4);
-  --color-task-shadow: hwb(50 60% 8% / 0.4);
-  --color-textarea-scrollbar-thumb: hwb(50 40% 35% / 0.5);
-  --color-textarea-scrollbar-track: hwb(50 40% 10% / 0.5);
-  --color-status-indicator: hwb(120 20% 32%);
+  --color-body-font: hsl(0, 0%, 20%);
+  --color-btn-active-bg: hsla(50, 50%, 60%, 0.6);
+  --color-btn-active-border: hsl(49, 50%, 80%);
+  --color-btn-bg: hsl(50, 100%, 85%);
+  --color-btn-border: hsl(50, 76%, 75%);
+  --color-btn-focus-bg: hsl(50, 100%, 77%);
+  --color-btn-focus-border: hsla(51, 23%, 33%, 0.45);
+  --color-btn-focus-outline: hsla(51, 23%, 33%, 0.45);
+  --color-btn-hover-bg: hsl(50, 100%, 77%);
+  --color-btn-shadow: hsla(50, 76%, 75%, 0.4);
+  --color-content-bg: hsl(51, 100%, 90%);
+  --color-header-bg: hsl(50, 100%, 85%);
+  --color-header-border: hsl(50, 67%, 82%);
+  --color-display-scrollbar-thumb: hsla(50, 64%, 73%, 0.7);
+  --color-display-scrollbar-track: hsl(50, 100%, 85%);
+  --color-empty-message-font: hsla(0, 0%, 20%, 0.4);
+  --color-placeholder: hsla(50, 26%, 53%, 0.5);
+  --color-popup-btn-active-border: hsla(0, 0%, 69%, 0.4);
+  --color-popup-btn-border: hsl(50, 58%, 71%);
+  --color-popup-btn-shadow: hsla(50, 33%, 63%, 0.6);
+  --color-popup-content-bg: hsl(50, 100%, 85%);
+  --color-popup-content-border: hsl(50, 58%, 71%);
+  --color-popup-content-shadow: hsla(50, 33%, 63%, 0.6);
+  --color-task-bg: hsl(50, 100%, 85%);
+  --color-task-border: hsl(50, 67%, 82%);
+  --color-task-scrollbar-thumb: hsla(50, 26%, 53%, 0.5);
+  --color-task-scrollbar-track: hsla(50, 72%, 65%, 0.4);
+  --color-task-shadow: hsla(50, 67%, 76%, 0.4);
+  --color-textarea-scrollbar-thumb: hsla(50, 26%, 53%, 0.5);
+  --color-textarea-scrollbar-track: hsla(50, 72%, 65%, 0.5);
+  --color-status-indicator: hsl(120, 54%, 44%);
 }
 
 *,
@@ -48,7 +48,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 0.9rem;
 }
 
 .content {
@@ -61,7 +60,7 @@ body {
 
 .header {
   display: flex;
-  padding: 0.75rem 1rem 0.75rem 1rem;
+  padding: 0.75rem 1rem 1rem 1rem;
   border-bottom: 1px solid var(--color-header-border);
   background-color: var(--color-header-bg);
 }
@@ -70,18 +69,20 @@ h1 {
   flex-grow: 1;
   letter-spacing: 1.1px;
   font-weight: 700;
+  font-size: 1.5rem;
 }
 
 .control {
   display: flex;
   align-items: center;
-  padding-top: 5px;
-  column-gap: 5px;
+  padding-top: 4px;
+  column-gap: 6px;
   position: relative;
 }
 
 .control>.btn {
-  min-width: 36px;
+  min-width: 40px;
+  padding: 0.15rem 0.8rem;
 }
 
 .btn {
@@ -93,7 +94,7 @@ h1 {
   font-family: inherit;
   font-size: inherit;
   font-weight: 500;
-  padding: 0.125rem 0.5rem;
+  padding: 0.25rem 0.8rem;
   transition: 0.05s background-color, 0.05s border-color, 0.05s outline, 0.05s box-shadow;
   user-select: none;
   letter-spacing: inherit;
@@ -149,18 +150,19 @@ h1 {
 
 .control__dropdown {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 6px);
   right: 0;
 }
 
 .control__dropdown .btn {
   min-width: 128px;
+  padding: 0.25rem 0.25rem;
 }
 
 .display {
   flex-grow: 1;
-  padding: 0 1.2rem 1rem 1.2rem;
   overflow: auto;
+  padding-bottom: 1.25rem;
 }
 
 .display--empty {
@@ -172,7 +174,7 @@ h1 {
 .display__empty-message {
   color: var(--color-empty-message-font);
   user-select: none;
-  font-size: 1rem;
+  font-size: 1.1rem;
 }
 
 .task {
@@ -181,10 +183,11 @@ h1 {
   border: 1px solid var(--color-task-border);
   box-shadow: 0 1px 0 var(--color-task-shadow);
   display: flex;
-  height: 5rem;
-  margin-top: 1rem;
+  height: 4.8rem;
+  margin: 1.25rem auto 0 auto;
   letter-spacing: 0.5px;
   position: relative;
+  width: 85%;
 }
 
 .task__content {
@@ -369,4 +372,36 @@ h1 {
 
 .indented {
   text-indent: 1.4rem;
+}
+
+@media screen and (min-width: 360px) {
+  h1 {
+    font-size: 1.75rem;
+  }
+
+  .control>.btn {
+    padding: 0.25rem 0.8rem;
+  }
+
+  .control {
+    column-gap: 8px;
+  }
+}
+
+@media screen and (min-width: 450px) {
+  .task {
+    width: 80%;
+  }
+
+  .control {
+    padding-top: 6px;
+  }
+
+  .control>.btn {
+    min-width: 64px;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
 }
