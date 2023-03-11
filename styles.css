@@ -1,21 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;700&display=swap');
+
 :root {
-  --color-body-font: hsl(0, 0%, 20%);
+  --color-body-font: hwb(0 20% 65% / 0.7);
   --color-btn-active-bg: hsla(50, 50%, 60%, 0.6);
   --color-btn-active-border: hsl(49, 50%, 80%);
   --color-btn-bg: hsl(50, 100%, 85%);
-  --color-btn-border: hsl(50, 76%, 75%);
+  --color-btn-border: hsl(50, 72%, 79%);
   --color-btn-focus-bg: hsl(50, 100%, 77%);
   --color-btn-focus-border: hsla(51, 23%, 33%, 0.45);
   --color-btn-focus-outline: hsla(51, 23%, 33%, 0.45);
   --color-btn-hover-bg: hsl(50, 100%, 77%);
-  --color-btn-shadow: hsla(50, 76%, 75%, 0.4);
+  --color-btn-shadow: hsla(50, 72%, 79%, 0.5);
   --color-content-bg: hsl(51, 100%, 90%);
   --color-header-bg: hsl(50, 100%, 85%);
   --color-header-border: hsl(50, 67%, 82%);
   --color-display-scrollbar-thumb: hsla(50, 64%, 73%, 0.7);
   --color-display-scrollbar-track: hsl(50, 100%, 85%);
-  --color-empty-message-font: hsla(0, 0%, 20%, 0.4);
-  --color-placeholder: hsla(50, 26%, 53%, 0.5);
+  --color-empty-message-font: hsla(0, 0%, 20%, 0.2);
+  --color-placeholder: hsla(0, 0%, 20%, 0.2);
   --color-popup-btn-active-border: hsla(0, 0%, 69%, 0.4);
   --color-popup-btn-border: hsl(50, 58%, 71%);
   --color-popup-btn-shadow: hsla(50, 33%, 63%, 0.6);
@@ -42,7 +44,7 @@
 
 body {
   color: var(--color-body-font);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   height: 100vh;
   letter-spacing: 0.25px;
   display: flex;
@@ -67,9 +69,9 @@ body {
 
 h1 {
   flex-grow: 1;
-  letter-spacing: 1.1px;
+  letter-spacing: 0.25px;
   font-weight: 700;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
 }
 
 .control {
@@ -93,8 +95,8 @@ h1 {
   color: inherit;
   font-family: inherit;
   font-size: inherit;
-  font-weight: 500;
-  padding: 0.25rem 0.8rem;
+  font-weight: 700;
+  padding: 0.25rem 1rem;
   transition: 0.05s background-color, 0.05s border-color, 0.05s outline, 0.05s box-shadow;
   user-select: none;
   letter-spacing: inherit;
@@ -156,7 +158,7 @@ h1 {
 
 .control__dropdown .btn {
   min-width: 128px;
-  padding: 0.25rem 0.25rem;
+  padding: 0.35rem 0.4rem;
 }
 
 .display {
@@ -169,6 +171,7 @@ h1 {
   align-items: center;
   display: flex;
   justify-content: center;
+  text-align: center;
 }
 
 .display__empty-message {
@@ -242,8 +245,13 @@ h1 {
 
 .task__dropdown {
   position: absolute;
-  top: 6px;
+  top: 3px;
   right: calc(100% + 6px);
+  box-shadow: none;
+}
+
+.task__dropdown .btn {
+  padding: 0.325rem 1rem;
 }
 
 .control__dropdown,
@@ -292,7 +300,7 @@ h1 {
 }
 
 .clear-prompt {
-  padding: 0.75rem 0.75rem 1.5rem 0.75rem;
+  padding: 0.5rem 0.75rem 0.85rem 0.75rem;
 }
 
 .popup__control {
