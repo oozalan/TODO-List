@@ -1,11 +1,12 @@
 document.addEventListener("click", function (event) {
-  let taskDropdown = document.querySelector(".task__dropdown");
-  if (!taskDropdown) return;
-
   let target = event.target.closest(".task__sidebar > .btn:first-of-type");
   if (target) return;
 
-  taskDropdown.remove();
+  let taskDropdowns = document.querySelectorAll(".task__dropdown");
+
+  for (let taskDropdown of taskDropdowns) {
+    if (!taskDropdown.classList.contains("invisible")) taskDropdown.classList.add("invisible");
+  }
 });
 
 document.addEventListener("click", function (event) {

@@ -53,3 +53,7 @@ export function makeAllTabbable() {
     button.setAttribute("tabindex", "0");
   }
 }
+
+// Media query lists
+export let mql600 = window.matchMedia("(min-width: 600px)");
+export let mql1040 = window.matchMedia("(min-width: 1024px)");

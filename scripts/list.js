@@ -1,6 +1,7 @@
 import { addBtn, clearBtn, listBtn, display, content } from "./exports.js";
 import { activeTasks, completedTasks } from "./exports.js";
 import { isDisplayEmpty, showEmptyMessage, removeEmptyMessage } from "./exports.js";
+import { mql600 } from "./exports.js";
 
 let dropdown = document.createElement("div");
 dropdown.className = "dropdown control__dropdown";
@@ -62,6 +63,11 @@ activeBtn.onclick = function (event) {
   content.setAttribute("data-task-type", "active");
   activeBtn.append(check);
   clearBtn.before(addBtn);
+
+  if (mql600.matches) {
+    clearBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Clear Active';
+    listBtn.innerHTML = 'Active <i class="fa-solid fa-caret-down"></i>';
+  }
 };
 
 completedBtn.onclick = function (event) {
@@ -89,6 +95,11 @@ completedBtn.onclick = function (event) {
   content.setAttribute("data-task-type", "completed");
   completedBtn.append(check);
   addBtn.remove();
+
+  if (mql600.matches) {
+    clearBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Clear Completed';
+    listBtn.innerHTML = 'Completed <i class="fa-solid fa-caret-down"></i>';
+  }
 };
 
 allBtn.onclick = function (event) {
@@ -126,4 +137,9 @@ allBtn.onclick = function (event) {
   content.setAttribute("data-task-type", "all");
   allBtn.append(check);
   addBtn.remove();
+
+  if (mql600.matches) {
+    clearBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Clear All';
+    listBtn.innerHTML = 'All <i class="fa-solid fa-caret-down"></i>';
+  }
 };

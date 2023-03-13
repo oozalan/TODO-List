@@ -1,6 +1,7 @@
-import { addBtn, clearBtn, display, content } from "./exports.js";
+import { addBtn, display, content } from "./exports.js";
 import { modalDiv, okBtn, cancelBtn, activeTasks, completedTasks } from "./exports.js";
 import { isDisplayEmpty, showEmptyMessage, removeEmptyMessage, makeAllNonTabbable, makeAllTabbable } from "./exports.js";
+import { mql1040 } from "./exports.js";
 
 let popup = document.createElement("div");
 popup.className = "popup";
@@ -12,23 +13,7 @@ textArea.setAttribute("placeholder", "Type here what you want to do.");
 let popupControl = document.createElement("div");
 popupControl.className = "popup__control";
 
-let dropdown = document.createElement("div");
-dropdown.className = "dropdown task__dropdown";
-
-let editBtn = document.createElement("button");
-editBtn.textContent = "Edit";
-editBtn.className = "btn";
-
-let removeBtn = document.createElement("button");
-removeBtn.textContent = "Remove";
-removeBtn.className = "btn";
-
-dropdown.append(editBtn);
-dropdown.append(removeBtn);
-
 addBtn.onclick = showArea;
-editBtn.onclick = showArea;
-removeBtn.onclick = onClickRemove;
 
 function showArea(event) {
   if (event.currentTarget == addBtn) {
@@ -79,23 +64,47 @@ function onClickOk(event) {
   taskSideBar.className = "dropdown task__sidebar";
   task.append(taskSideBar);
 
-  let taskBtnMenu = document.createElement("button");
-  taskBtnMenu.classList.add("btn");
-  taskSideBar.append(taskBtnMenu);
-  taskBtnMenu.onclick = onClickMenu;
+  let menuBtn = document.createElement("button");
+  menuBtn.classList.add("btn");
+  menuBtn.innerHTML = '<i class="fa-solid fa-ellipsis"></i>';
+  menuBtn.setAttribute("title", "Menu");
+  menuBtn.onclick = onClickMenu;
+  taskSideBar.append(menuBtn);
 
-  let taskBtnMenuIcon = document.createElement("i");
-  taskBtnMenuIcon.className = "fa-solid fa-ellipsis";
-  taskBtnMenu.append(taskBtnMenuIcon);
+  let completeBtn = document.createElement("button");
+  completeBtn.classList.add("btn");
+  completeBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+  completeBtn.setAttribute("title", "Complete");
+  completeBtn.onclick = onClickDone;
+  taskSideBar.append(completeBtn);
 
-  let taskBtnComplete = document.createElement("button");
-  taskBtnComplete.classList.add("btn");
-  taskSideBar.append(taskBtnComplete);
-  taskBtnComplete.onclick = onClickDone;
+  let taskDropdown = document.createElement("div");
+  taskDropdown.className = "dropdown task__dropdown invisible";
+  taskSideBar.append(taskDropdown);
 
-  let taskBtnCompleteIcon = document.createElement("i");
-  taskBtnCompleteIcon.className = "fa-solid fa-check";
-  taskBtnComplete.append(taskBtnCompleteIcon);
+  let editBtn = document.createElement("button");
+  editBtn.className = "btn";
+  editBtn.onclick = showArea;
+
+  let removeBtn = document.createElement("button");
+  removeBtn.className = "btn";
+  removeBtn.onclick = onClickRemove;
+
+  if (mql1040.matches) {
+    editBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
+    editBtn.setAttribute("title", "Edit");
+    removeBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
+    removeBtn.setAttribute("title", "Remove");
+
+    menuBtn.after(editBtn);
+    taskSideBar.append(removeBtn);
+    menuBtn.classList.add("invisible");
+  } else {
+    editBtn.textContent = "Edit";
+    removeBtn.textContent = "Remove";
+    taskDropdown.append(editBtn);
+    taskDropdown.append(removeBtn);
+  }
 
   finish();
 }
@@ -105,15 +114,19 @@ function onClickCancel(event) {
 }
 
 function onClickMenu(event) {
-  let taskDropdown = document.querySelector(".task__dropdown");
-  if (taskDropdown) {
-    taskDropdown.remove();
-    return;
+  let task = event.currentTarget.closest(".task");
+  let taskDropdown = task.querySelector(".task__dropdown");
+
+  let isVisible;
+  if (taskDropdown.classList.contains("invisible")) isVisible = false;
+  else isVisible = true;
+
+  let dropdowns = document.querySelectorAll(".task__dropdown");
+  for (let dropdown of dropdowns) {
+    dropdown.classList.add("invisible");
   }
 
-  let task = event.currentTarget.closest(".task");
-  let taskSidebar = task.querySelector(".task__sidebar");
-  taskSidebar.append(dropdown);
+  if (!isVisible) taskDropdown.classList.remove("invisible");
 }
 
 function onClickRemove(event) {
@@ -140,7 +153,13 @@ function onClickDone(event) {
   completedTasks.push(task);
   task.remove();
 
-  let doneBtn = task.querySelector(".task__sidebar>.btn:nth-of-type(2)");
+  let doneBtn;
+  if (mql1040.matches) {
+    doneBtn = task.querySelector(".task__sidebar>.btn:nth-of-type(3)");
+  } else {
+    doneBtn = task.querySelector(".task__sidebar>.btn:nth-of-type(2)");
+  }
+
   doneBtn.remove();
 
   let statusIndicator = document.createElement("span");
