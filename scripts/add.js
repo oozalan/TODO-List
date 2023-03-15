@@ -1,7 +1,7 @@
 import { addBtn, display, content } from "./exports.js";
 import { modalDiv, okBtn, cancelBtn, activeTasks, completedTasks } from "./exports.js";
-import { isDisplayEmpty, showEmptyMessage, removeEmptyMessage, makeAllNonTabbable, makeAllTabbable } from "./exports.js";
-import { mql1040 } from "./exports.js";
+import { isDisplayEmpty, showEmptyMessage, removeEmptyMessage, makeAllNonTabbable, makeAllTabbable, removeFromStorage } from "./exports.js";
+import { mql1024 } from "./exports.js";
 
 let popup = document.createElement("div");
 popup.className = "popup";
@@ -15,7 +15,7 @@ popupControl.className = "popup__control";
 
 addBtn.onclick = showArea;
 
-function showArea(event) {
+export function showArea(event) {
   if (event.currentTarget == addBtn) {
     okBtn.textContent = "Add";
   } else {
@@ -42,6 +42,11 @@ function onClickOk(event) {
   if (onClickOk.task) {
     let taskContent = onClickOk.task.querySelector(".task__content");
     taskContent.textContent = textArea.value;
+
+    let storageIndex = +onClickOk.task.getAttribute("data-index");
+    let status = localStorage.getItem(storageIndex)[0];
+    localStorage.setItem(storageIndex, status + textArea.value);
+
     finish();
     return;
   }
@@ -52,8 +57,12 @@ function onClickOk(event) {
 
   let task = document.createElement("div");
   task.classList.add("task");
-  activeTasks.push(task);
   display.append(task);
+
+  let storageIndex = localStorage.length;
+  localStorage.setItem(storageIndex, "A" + value);
+  task.setAttribute("data-index", storageIndex);
+  activeTasks.push(task);
 
   let taskContent = document.createElement("p");
   taskContent.classList.add("task__content");
@@ -90,7 +99,7 @@ function onClickOk(event) {
   removeBtn.className = "btn";
   removeBtn.onclick = onClickRemove;
 
-  if (mql1040.matches) {
+  if (mql1024.matches) {
     editBtn.innerHTML = '<i class="fa-solid fa-pen-to-square"></i>';
     editBtn.setAttribute("title", "Edit");
     removeBtn.innerHTML = '<i class="fa-solid fa-trash"></i>';
@@ -113,7 +122,7 @@ function onClickCancel(event) {
   finish();
 }
 
-function onClickMenu(event) {
+export function onClickMenu(event) {
   let task = event.currentTarget.closest(".task");
   let taskDropdown = task.querySelector(".task__dropdown");
 
@@ -129,7 +138,7 @@ function onClickMenu(event) {
   if (!isVisible) taskDropdown.classList.remove("invisible");
 }
 
-function onClickRemove(event) {
+export function onClickRemove(event) {
   let task = event.currentTarget.closest(".task");
 
   if (activeTasks.includes(task)) {
@@ -140,21 +149,27 @@ function onClickRemove(event) {
     completedTasks.splice(index, 1);
   }
 
+  removeFromStorage(task);
   task.remove();
   if (isDisplayEmpty()) showEmptyMessage(content.getAttribute("data-task-type"));
 }
 
-function onClickDone(event) {
+export function onClickDone(event) {
   let task = event.currentTarget.closest(".task");
 
   let index = activeTasks.indexOf(task);
   activeTasks.splice(index, 1);
 
   completedTasks.push(task);
+
+  let storageIndex = task.getAttribute("data-index");
+  let storageValue = localStorage.getItem(storageIndex);
+  localStorage.setItem(storageIndex, "C" + storageValue.slice(1));
+
   task.remove();
 
   let doneBtn;
-  if (mql1040.matches) {
+  if (mql1024.matches) {
     doneBtn = task.querySelector(".task__sidebar>.btn:nth-of-type(3)");
   } else {
     doneBtn = task.querySelector(".task__sidebar>.btn:nth-of-type(2)");

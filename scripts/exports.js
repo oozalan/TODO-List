@@ -54,6 +54,25 @@ export function makeAllTabbable() {
   }
 }
 
+export function removeFromStorage(task) {
+  let storageIndex = +task.getAttribute("data-index");
+
+  for (let i = storageIndex; i < localStorage.length - 1; i++) {
+    localStorage.setItem(i, localStorage.getItem(i + 1));
+
+    let allTasks = [...activeTasks, ...completedTasks];
+
+    for (let task of allTasks) {
+      if (+task.getAttribute("data-index") == (i + 1)) {
+        task.setAttribute("data-index", i);
+        break;
+      }
+    }
+  }
+
+  localStorage.removeItem(localStorage.length - 1);
+}
+
 // Media query lists
 export let mql600 = window.matchMedia("(min-width: 600px)");
-export let mql1040 = window.matchMedia("(min-width: 1024px)");
+export let mql1024 = window.matchMedia("(min-width: 1024px)");

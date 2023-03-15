@@ -1,6 +1,6 @@
 import { clearBtn, content } from "./exports.js";
 import { modalDiv, okBtn, cancelBtn, activeTasks, completedTasks } from "./exports.js";
-import { showEmptyMessage, makeAllNonTabbable, makeAllTabbable } from "./exports.js";
+import { showEmptyMessage, makeAllNonTabbable, makeAllTabbable, removeFromStorage } from "./exports.js";
 
 let popup = document.createElement("div");
 popup.className = "popup";
@@ -43,12 +43,14 @@ function onClickOk(event) {
 
   if (taskType == "active") {
     for (let task of tasks) {
+      removeFromStorage(task);
       task.remove();
     }
 
     activeTasks.length = 0;
   } else if (taskType == "completed") {
     for (let task of tasks) {
+      removeFromStorage(task);
       task.remove();
     }
 
@@ -58,6 +60,7 @@ function onClickOk(event) {
       task.remove();
     }
 
+    localStorage.clear();
     activeTasks.length = 0;
     completedTasks.length = 0;
   }

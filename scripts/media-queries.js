@@ -1,5 +1,5 @@
 import { addBtn, clearBtn, listBtn, content, activeTasks, completedTasks } from "./exports.js";
-import { mql600, mql1040 } from "./exports.js";
+import { mql600, mql1024 } from "./exports.js";
 
 function handleMql600(e) {
   if (e.matches) {
@@ -35,7 +35,7 @@ function handleMql600(e) {
 handleMql600(mql600);
 mql600.addEventListener("change", handleMql600);
 
-function handleMql1040(e) {
+function handleMql1024(e) {
   let tasks = [...activeTasks, ...completedTasks];
 
   if (e.matches) {
@@ -76,5 +76,5 @@ function handleMql1040(e) {
   }
 }
 
-handleMql1040(mql1040);
-mql1040.addEventListener("change", handleMql1040);
+handleMql1024(mql1024);
+mql1024.addEventListener("change", handleMql1024);
